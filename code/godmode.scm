@@ -8,13 +8,23 @@
 			   (lambda () (#f))))
 
 (define (god-mode-only func)
-	(lambda (arguments) (
+	(lambda arguments (
 		(if (eq? god-mode-enabled #f)
-		    (tell! "God Mode Disabled")
-		    (func arguments))
+		    ((display "God Mode Disabled")
+		     #f) ; TODO Change to show to global user
+		    (apply func arguments))
 	)))
 
-(define god-mode-test (god-mode-only (lambda () (tell! "its working"))))
+(define god-mode-test (god-mode-only (lambda (arguments) (display "its working"))))
+
+(define (god-go direction)
+	((god-mode-only go) direction))
+
+(define (god-create location)
+	((god-mode-only create-place) location))
+
+(define (god-can-go-both-ways loc1 dir1 dir2 loc2)
+	((god-mode-only can-go-both-ways) loc1 dir1 dir2 loc2))
 
 (define (comparison trait type obj1 obj2 victor loser tie)
 	(let ((val1 ((property-getter trait type) obj1))
