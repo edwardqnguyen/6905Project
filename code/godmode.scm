@@ -1,6 +1,9 @@
 (define god-mode-exclusive (make-eqv-hash-table)) ; Useful for eventual eval/apply interpreter.
 (define god-mode-enabled #f)
 
+(define (enable-god-mode) (set! god-mode-enabled #t))
+(define (disable-god-mode) (set! god-mode-enabled #f))
+
 (define (function-available? func)
 	(hash-table/lookup god-mode-exclusive func
 			   (lambda (key) ((or (eq? (hash-table-ref key) #f)
