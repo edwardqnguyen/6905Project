@@ -145,20 +145,29 @@
         (bldg-6 (create-place 'bldg-6))
         (bldg-8 (create-place 'bldg-8))
 
+        (elevator (create-place 'elevator))
         (ground (create-place 'ground))
 
     (can-go-both-ways bldg-1 'north 'south bldg-5)
-    (can-go-both-ways bldg-1 'north 'south bldg-3)
+    (can-go-both-ways bldg-1 'ladder 'ladder bldg-3)
     (can-go-both-ways bldg-5 'north 'south bldg-7)
 
     (can-go-both-ways bldg-7 'east 'west bldg-3)
     (can-go-both-ways bldg-3 'east 'west bldg-10)
     (can-go-both-ways bldg-10 'east 'west bldg-4)
-    (can-go-both-ways bldg-4 'east 'west bldg-8)
+    (can-go-both-ways bldg-4 'ledgehug 'ledgehug bldg-8)
 
     (can-go-both-ways bldg-2 'north 'south bldg-6)
     (can-go-both-ways bldg-2 'north 'south bldg-4)
-    (can-go-both-ways bldg-6 'north 'south bldg-8)
+    (can-go-both-ways bldg-6 'ledgehug 'ledgehug bldg-8)
+
+    (can-go-both-ways ground 'into 'outof elevator)
+    (can-go-both-ways elevator 'elevate 'descend bldg-3)
+
+    (can-go-both-ways bldg-1 'secret-bridge 'secret-bridge bldg-2)
+
+    (can-go bldg-10 'hangdrop bldg-7)
+    (can-go bldg-10 'hangdrop bldg-8)
     
     (can-go bldg-1 'down ground)
     (can-go bldg-2 'down ground)
@@ -202,6 +211,7 @@
     (can-see-both-ways bldg-2 bldg-10)
 
 
+
     (can-see bldg-1 ground)
     (can-see bldg-2 ground)
     (can-see bldg-3 ground)
@@ -225,7 +235,7 @@
     (list bldg-1 bldg-2 
         bldg-3 bldg-4 bldg-5 
         bldg-6 bldg-7 bldg-8 
-        bldg-10 ground)))
+        bldg-10 ground elevator)))
 
 
 
