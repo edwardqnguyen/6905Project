@@ -16,6 +16,11 @@
 ;Create quality type
 (define quality?
     (make-type 'quality (list quality:predicate quality:value quality:name)))
+(set-predicate!=< quality? object?)
+
+;Create quality instatiator
+(define make-quality
+  (type-instantiator quality?))
 
 ;Property get, set, and compare operations
 ;Qualities should be able to take on different types but not change type once declared
@@ -26,8 +31,16 @@
 (define get-quality-value
     (property-getter quality:value quality?))
 
+(define get-quality-name
+    (property-getter quality:name quality?))
+
 (define (set-quality-value! object value)
     ((property-setter quality:value quality? (get-quality-type object)) object value))
+
+;Create quality category comparison
+;Category is a string that is the name of the quality
+(define (is-quality-in-category? quality category)
+    (eqv? (get-quality-name quality) category))
 
 ;Comparison returns #t if the first argument is greater in the domain and #f if it is not.
 ;Once there is a response from this, we can check equality
