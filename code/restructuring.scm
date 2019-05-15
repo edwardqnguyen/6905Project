@@ -23,13 +23,13 @@
 (define vision-module)
 
 (define (set-vision-module! connection-function)
-    (set! vision-module connection-function)
+    (set! vision-module connection-function))
 
 ;A connection module is merely a one-argument generic procedure
 ;The single argument is the caller
 
-(define (create-connection-function name)
-    (simple-generic-procedure name 1))
+(define (create-connection-module name)
+    (simple-generic-procedure name 1 #f))
 
 ;We can add cases to our connection module. Since a connection module returns a connector function, we allow
 ;the user to specify the function that is returned. This is not the function that is run but the
@@ -42,6 +42,10 @@
 
 ;To keep legacy programs working, we won't modify the original functions directly. However, we'll modify
 ;the functions we need to follow this new paradigm.
+
+;We need to initialize the vision module
+
+(set-vision-module! (create-connection-module 'vision-module))
 
 ;Let's add a basic case
 

@@ -1,3 +1,5 @@
+;Slightly modified versions of these are actually used and appear in tagging/adventure-objects.scm
+
 ;Characters will be a modified (and generic version) of agents (people and autonomous and agents)
 ;They will not be a subclass of people, though, as we don't want characters
 ;to have health as a specific trait (we want this to be a quality)
@@ -12,10 +14,10 @@
     (make-property  'quality-bag
                     'predicate (lambda (x) (quality-bag? x)
                     'default-supplier
-                    (lambda () (make-quality-bag 'name )))))
+                    (lambda () (make-quality-bag 'name 'bag 'qualities () 'holder #f)))))
 
 (define character?
-  (make-type 'character (list character:health character:bag)))
+  (make-type 'character (list character:quality-bag)))
 (set-predicate<=! character? mobile-thing?)
 
 (define get-quality-bag
@@ -39,12 +41,12 @@
 (define quality-bag:qualities
     (make-property  'qualities
                     'predicate (is-list-of quality?)
-                    'default-value '())
+                    'default-value '()))
 
 (define quality-bag:holder
     (make-property  'holder
-                    'predicate (lambda (x) (or (eqv? x #f) (character? x))
-                    'default-value #f)
+                    'predicate (lambda (x) (or (eqv? x #f) (character? x)))
+                    'default-value #f))
 
 (define quality-bag?
   (make-type 'quality-bag (list quality-bag:qualities quality-bag:holder)))
@@ -69,7 +71,7 @@
   (property-setter quality-bag:holder quality-bag? character?))
 
 (define (get-character-qualities character)
-    (get-qualities (get-quality-bag character))
+    (get-qualities (get-quality-bag character)))
 
 ;Searches for quality by string
 (define (get-character-quality character quality-name)
@@ -106,7 +108,7 @@
 ;add instances of this type to the registry
 
 (define (make-type-registered type registry)
-    (lambda (add)) (if (type add) (append! (list add))))
+    (lambda (add) (if (type add) (append! (list add)))))
 
 ;We want an easy way to make new character types
 ;We'll package up the predicate and the registration method into one
@@ -136,7 +138,7 @@
 
 (define person-registry (list))
 
-(define person-bundle make-character-type 'person (list person:bag) person-registry)
+(define person-bundle (make-character-type 'person (list person:bag) person-registry))
 
 (define person? (get-character-predicate person-bundle))
 
@@ -159,7 +161,7 @@
 ;We now redefine the health methods to affect the health quality
 
 (define (get-health person)
-    (get-character-quality-value person 'heatlh))
+    (get-character-quality-value person 'health))
 
 (define (set-health person)
     (set-character-quality-value! person 'health))

@@ -304,12 +304,14 @@
 (define (create-student name home restlessness acquisitiveness)
   (make-student 'name name
                 'location home
+                'quality-bag (make-quality-bag '() #f)
                 'restlessness restlessness
                 'acquisitiveness acquisitiveness))
 
 (define (create-house-master name home restlessness irritability)
   (make-house-master 'name name
                      'location home
+                     'quality-bag (make-quality-bag '() #f)
                      'restlessness restlessness
                      'acquisitiveness 1/10
                      'irritability irritability))
@@ -317,6 +319,7 @@
 (define (create-troll name home restlessness hunger)
   (make-troll 'name name
               'location home
+              'quality-bag (make-quality-bag '() #f)
               'restlessness restlessness
               'acquisitiveness 1/10
               'hunger hunger))
@@ -324,5 +327,6 @@
 (define (create-avatar name home)
   (make-avatar 'name name
                'location home
+               'quality-bag (make-quality-bag '() #f)
                'screen (make-screen 'name 'the-screen)))
 

@@ -1,22 +1,26 @@
+;Slightly modified versions of these are actually used and appear in tagging/adventure-objects.scm
+
 ;Create quality properties
 ;We need one property for the predicate and one for the value
 ;This enables us to have qualities take on a variety of values
 (define quality:predicate
-    (make-property  'predicate predicate?
-                    'default-value integer?'))
+    (make-property  'predicate
+                    'predicate predicate?
+                    'default-value integer?))
 
 (define quality:value
-    (make-property  'predicate any-object?
+    (make-property  'value
+                    'predicate any-object?
                     'default-value 0))
 
 (define quality:name
-    (make-property  'predicate string?
+    (make-property  'name
+                    'predicate string?
                     'default-value 'quality))
 
 ;Create quality type
 (define quality?
     (make-type 'quality (list quality:predicate quality:value quality:name)))
-(set-predicate!=< quality? object?)
 
 ;Create quality instatiator
 (define make-quality
@@ -46,7 +50,7 @@
 ;Once there is a response from this, we can check equality
 
 (define compare-in-quality 
-    (simple-generic-procedure 'compare-in-quality 2))
+    (simple-generic-procedure 'compare-in-quality 2 #f))
 
 ;To have a generic procedure work with qualities (and look at their internal predicates),
 ;we'll need a way of making special quality predicates. We'll use these as the predicates
